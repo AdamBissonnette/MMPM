@@ -1,0 +1,22 @@
+[24-Aug-2012 09:03:32] PHP Warning:  include_once(inc/functions.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php on line 36
+[24-Aug-2012 09:03:32] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening 'inc/functions.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php on line 36
+[24-Aug-2012 09:03:32] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/simon/public_html/wp-content/plugins/MMPM/mm_productmanager_plugin.php:321) in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipnlistener.php on line 314
+[24-Aug-2012 09:03:32] Invalid HTTP request method.
+[24-Aug-2012 09:03:51] PHP Warning:  include_once(inc/functions.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php on line 36
+[24-Aug-2012 09:03:51] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening 'inc/functions.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php on line 36
+[24-Aug-2012 09:03:51] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php:36) in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipnlistener.php on line 314
+[24-Aug-2012 09:03:51] Invalid HTTP request method.
+[24-Aug-2012 09:05:04] PHP Warning:  include_once(../inc/functions.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php on line 36
+[24-Aug-2012 09:05:04] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening '../inc/functions.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php on line 36
+[24-Aug-2012 09:05:04] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php:36) in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipnlistener.php on line 314
+[24-Aug-2012 09:05:04] Invalid HTTP request method.
+[24-Aug-2012 09:05:33] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php:73) in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipnlistener.php on line 314
+[24-Aug-2012 09:05:33] Invalid HTTP request method.
+[24-Aug-2012 09:06:07] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipn.php:73) in /home/simon/public_html/wp-content/plugins/MMPM/ipn/ipnlistener.php on line 314
+[24-Aug-2012 09:06:07] Invalid HTTP request method.
+[24-Aug-2012 09:06:51] Invalid HTTP request method.
+[24-Aug-2012 09:06:58] Invalid HTTP request method.
+[24-Aug-2012 09:07:10] Invalid HTTP request method.
+[24-Aug-2012 09:10:40] Invalid HTTP request method.
+[24-Aug-2012 09:11:15] Invalid HTTP request method.
+[28-Aug-2012 10:54:27] Invalid HTTP request method.
