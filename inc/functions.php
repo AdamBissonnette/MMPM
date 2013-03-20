@@ -192,10 +192,10 @@
 					<td>%s</td>
 					<td>%s</td>
 					<td>
-						<a href=\"#\" class=\"btnProductEdit\" id=\"product-edit-1\" onclick=\"javascript: EditProduct(%s);\" title=\"Edit\"><i class=\"icon-edit\"></i></a>
-						<a href=\"#\" class=\"btnProductCopy\" id=\"product-copy-1\" onclick=\"javascript: CopyProduct(%s);\" title=\"Copy\"><i class=\"icon-file\"></i></a>
-						<a href=\"#\" class=\"btnProductDelete\" id=\"product-delete-1\" onclick=\"javascript: DeleteProduct(%s);\" title=\"Delete\"><i class=\"icon-trash\"></i></a>
-						<a href=\"#\" class=\"btnFillClass btn btn-warning\" onclick=\"javascript: FillClass(%s);\" title=\"Fill Class\">Fill Class</a>
+						<a href=\"#\" class=\"btnProductEdit\" id=\"product-edit-1\" onclick=\"javascript: EditProduct(%s);\" title=\"Edit\"><i class=\"icon-edit\"></i>Edit</a>
+						<a href=\"#\" class=\"btnProductCopy\" id=\"product-copy-1\" onclick=\"javascript: CopyProduct(%s);\" title=\"Copy\"><i class=\"icon-file\"></i>Copy</a>
+						<a href=\"#\" class=\"btnProductDelete\" id=\"product-delete-1\" onclick=\"javascript: DeleteProduct(%s);\" title=\"Delete\"><i class=\"icon-trash\"></i>Delete</a>
+						<a href=\"#\" class=\"btnFillClass\" onclick=\"javascript: FillClass(%s);\" title=\"Fill\"><i class=\"icon-tint\"></i>Fill</a>
 					</td>
 				</tr>",
 				$Product->vcrName,
@@ -776,6 +776,7 @@
 	
 	/** Ajax Event Calendar Hooks **/
 	function Ajax_Calendar_Insert($input) {
+		try {
 		global $wpdb;
 		
 		/*
@@ -837,9 +838,13 @@
 							);
 							
 		return $wpdb->insert_id;
+		} catch (Exception $e)
+		{}
+		return -1;
 	}
 
 	function Ajax_Calendar_Update($input) {
+		try {
 		global $wpdb;
 		
 		$product = GetProductById($input->id);
@@ -892,22 +897,30 @@
 									),
 								array ('%d') 			// id
 							);
+		} catch (Exception $e)
+		{}
 	}
 
 	function Ajax_Calendar_Delete($eid) {
+		try {
 		$sql = sprintf('DELETE FROM wp_aec_event WHERE id = %s', $eid);
 		
 		ExecuteStatement($sql);
+		} catch (Exception $e)
+		{}
 	}
 	
 	function GetCalendarUrl($EventID)
 	{
+		try {
 		$query = sprintf("SELECT * FROM wp_aec_event WHERE id = %s", $EventID);
 		$CalEvent = ExecuteQuery($query);
 		
 		//print_r($CalEvent);
 		
 		return $CalEvent[0]->link;
+		} catch (Exception $e)
+		{}
 	}
 	
 	function array_to_object($array = array()) {

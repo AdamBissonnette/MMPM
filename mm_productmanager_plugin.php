@@ -102,6 +102,8 @@ class MM_ProductManager
 			  `dtmStartDate` datetime NOT NULL,
 			  `dtmEndDate` datetime NOT NULL,
 			  `tinDeleted` tinyint(1) NOT NULL DEFAULT '0',
+			  `vcrUrl` varchar(100) NOT NULL DEFAULT '',
+			  `intExternalID` int(11) NOT NULL DEFAULT '0',
 			  PRIMARY KEY (`intID`));",
 		$wpdb->prefix . "mmpm_product");
 		
