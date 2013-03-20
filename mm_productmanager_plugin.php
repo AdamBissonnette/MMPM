@@ -3,8 +3,8 @@
 Plugin Name: MM Product Manager
 Plugin URI: http://mediamanifesto.com
 Description: Product Management for selling single items easily via paypal
-Version: 0.8
-Author: Adam Bissonnette
+Version: 0.9
+Author: Media Manifesto Inc
 Author URI: http://www.mediamanifesto.com
 */
 
@@ -14,7 +14,7 @@ class MM_ProductManager
 {
 	var $_settings;
     var $_options_pagename = 'mm_pm_options';
-    var $_versionnum = 0.3;
+    var $_versionnum = 0.9;
     var $location_folder;
 	var $menu_page;
 	//var $update_name = 'MM_ProductManager/mm_productmanager_plugin.php';
@@ -54,7 +54,21 @@ class MM_ProductManager
 		add_filter('query_vars', array(&$this, 'mmpm_filter') );
 		add_action('parse_request', array(&$this, 'mmpm_request') );
 		add_filter('preprocess_comment', array(&$this, 'mm_comment_post'), 1);
+		add_action('admin_bar_menu', array(&$this, 'add_specials_admin_bar_link'),25);
     }
+    
+	function add_specials_admin_bar_link() {
+		global $wp_admin_bar;
+		if ( !is_super_admin() || !is_admin_bar_showing() )
+			return;
+		$admin_page_url = 
+
+		$wp_admin_bar->add_menu( array(
+		'id' => 'mmpm_link',
+		'title' => __( 'Update Classes'),
+		'href' => admin_url(sprintf("options-general.php?page=%s", $this->_options_pagename)),
+		) );
+	}
     
     function mm_comment_post($comment)
     {
@@ -130,7 +144,7 @@ class MM_ProductManager
     
     function add_settings_link($links) {
 		$settings = '<a href="' .
-					admin_url(sprintf("options-general.php?page=%s", $_options_pagename)) .
+					admin_url(sprintf("options-general.php?page=%s", $this->_options_pagename)) .
 					'">' . __('Settings') . '</a>';
 		array_unshift( $links, $settings );
 		return $links;
@@ -490,16 +504,4 @@ function MM_ProductManager_Init()
     global $MM_ProductManager;
     $MM_ProductManager = new MM_ProductManager();
 }
-
-function add_specials_admin_bar_link() {
-	global $wp_admin_bar;
-	if ( !is_super_admin() || !is_admin_bar_showing() )
-		return;
-	$wp_admin_bar->add_menu( array(
-	'id' => 'sff_link',
-	'title' => __( 'Update Classes'),
-	'href' => __('http://www.simonsfinefoods.com/wp-admin/options-general.php?page=mm_pm_options'),
-	) );
-}
-add_action('admin_bar_menu', 'add_specials_admin_bar_link',25);
 ?>
