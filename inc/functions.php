@@ -56,6 +56,17 @@
 		return $wpdb->get_row($sql);
 	}
 	
+	//Technically this gets the product from the first line item in that purchase
+	//if carts are added this should get a list of products
+	function GetProductByPurchaseID($pid)
+	{
+		global $wpdb;
+		$sql = sprintf("SELECT intProductID FROM %s as li JOIN %s as p ON li.intPurchaseID = p.intID WHERE li.intID = %s",
+			$wpdb->prefix . "mmpm_lineitem", $wpdb->prefix . "mmpm_product", $pid);
+	
+		return $wpdb->get_row($sql);
+	}
+	
 	function GetProductByName($pname)
 	{
 		global $wpdb;
@@ -329,31 +340,38 @@
 	
 		if ($purchase->intID > 0)
 		{
-			UpdatePurchase($purchase->intID, $value);
+			UpdatePurchase($purchase->intID, $value); //Should be adding the json to purchase here
 		}
 		
 		$purchaserid = $purchase->intPurchaserID;
 
 		switch($value){
 			case 1:
+				UpdatePurchaser($purchaserid, $json); //JSON here should be for addtional buyer info
+				
+				$_settings = get_option('mm_pm_settings') ? get_option('mm_pm_settings') : array();
+				$message = "Thank you for your purchase.<br /><br />
+					I will send you a reminder and further information nearer to the class if anything comes up.<br /><br />
+					Check out more information on our cancellation policy and what to bring to your class <a href=\"http://www.simonsfinefoods.com/cooking-classes/\">here</a>.<br /><br />
+					If you have a question regarding the class please e-mail me at: simon@simonsfinefoods.com<br /><br />
+					- Simon";
+					
+				SendEmail($pemail,
+					"Registration Confirmation",
+					$_settings['mm_pm_notifyemail'],
+					$message);
+					
+				//Added Send Reminders to notify admins of sold out or almost sold out content
+				$Product = GetProductByPurchaseID($purchase->intID);
+				SendReminders($Product);
+			break;
+			case 4: //Refund
 				UpdatePurchaser($purchaserid, $json);
 			break;
 			default:
 				//Derp
 			break;
 		}
-		
-		$_settings = get_option('mm_pm_settings') ? get_option('mm_pm_settings') : array();
-		$message = "Thank you for your purchase.<br /><br />
-					I will send you a reminder and further information nearer to the class if anything comes up.<br /><br />
-					Check out more information on our cancellation policy and what to bring to your class <a href=\"http://www.simonsfinefoods.com/cooking-classes/\">here</a>.<br /><br />
-					If you have a question regarding the class please e-mail me at: simon@simonsfinefoods.com<br /><br />
-					- Simon";
-		
-		SendEmail($pemail,
-					"Registration Confirmation",
-					$_settings['mm_pm_notifyemail'],
-					$message);
 	}
 	
 	function SelectPurchaseByInvoiceID($invoiceid)
@@ -402,34 +420,7 @@
 			$InvoicePrefix = $_settings['mm_pm_invoice'] . "-";
 			$TaxPercent = $_settings['mm_pm_tax'] / 100;
 		
-			if ($remaining <= $Product->intNotifyQuantity)
-			{
-				if ($remaining == 0)
-				{
-					$message = sprintf("Hey there!<br /><br /> Product: '%s' is sold out.  Here is the list of sales:<br /><br />
-					%s<br /><br />
-					Sincerely,<br />The Media Manifesto Team",
-					$Product->vcrDescription,
-					genPurchaseReport($Product->intID));
-				}
-				else
-				{				
-					//Send Notification Email
-					$message = sprintf("Hey there!<br /><br/> This is just a friendly reminder that this product: '%s' is selling out.
-					There are only %d left of %d which means you've sold %d.  Here is the list of sales:<br />%s<br /><br />
-					Have a Great Day !!<br /><br /> Sincerely,<br />The Media Manifesto Team",
-							$Product->vcrName,
-							$remaining,
-							$Product->intQuantity,
-							$sold,
-							genPurchaseReport($Product->intID));
-				}
-				
-				SendEmail($_settings['mm_pm_notifyemail'] . ', adam@mediamanifesto.com',
-					"Product Notification",
-					"info@mediamanifesto.com",
-					$message);
-			}
+			//Removed Code for sending Reminders
 			
 			$InvoiceNumber = InsertPurchase($Product->intID, $Quantity, $InvoicePrefix);
 			$Total = $Product->decPrice * $Quantity;
@@ -440,6 +431,41 @@
 		else
 		{
 			OutputFailureJSON();
+		}
+	}
+	
+	function SendReminders($Product)
+	{
+		$sold = GetQuantitySold($Product->intID) + $Quantity;
+		$remaining = $Product->intQuantity - $sold;
+	
+		if ($remaining <= $Product->intNotifyQuantity)
+		{
+			if ($remaining == 0)
+			{
+				$message = sprintf("Hey there!<br /><br /> Product: '%s' is sold out.  Here is the list of sales:<br /><br />
+				%s<br /><br />
+				Sincerely,<br />The Media Manifesto Team",
+				$Product->vcrDescription,
+				genPurchaseReport($Product->intID));
+			}
+			else
+			{				
+				//Send Notification Email
+				$message = sprintf("Hey there!<br /><br/> This is just a friendly reminder that this product: '%s' is selling out.
+				There are only %d left of %d which means you've sold %d.  Here is the list of sales:<br />%s<br /><br />
+				Have a Great Day !!<br /><br /> Sincerely,<br />The Media Manifesto Team",
+						$Product->vcrName,
+						$remaining,
+						$Product->intQuantity,
+						$sold,
+						genPurchaseReport($Product->intID));
+			}
+			
+			SendEmail($_settings['mm_pm_notifyemail'] . ', adam@mediamanifesto.com',
+				"Product Notification",
+				"info@mediamanifesto.com",
+				$message);
 		}
 	}
 	
