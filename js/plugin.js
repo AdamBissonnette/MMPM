@@ -123,13 +123,13 @@ function FinalizeAdd(data)
 	data.pname + '</td><td>' + data.pdesc + '</td><td>' + data.pquant +
 	'</td><td>' + data.psales + '</td><td>' + data.pend + '</td><td>' +
 	'<a href=\"#\" class=\"btnProductEdit\" onclick=\"javascript: EditProduct(' + pid +
-	');\" title=\"Edit\"><i class=\"icon-edit\"></i></a> ' +
+	');\" title=\"Edit\"><i class=\"icon-edit\"></i>Edit</a> ' +
 	'<a href=\"#\" class=\"btnProductCopy\" onclick=\"javascript: CopyProduct(' + pid +
-	');\" title=\"Copy\"><i class=\"icon-file\"></i></a> ' +
+	');\" title=\"Copy\"><i class=\"icon-file\"></i>Copy</a> ' +
 	'<a href=\"#\" class=\"btnProductDelete\" onclick=\"javascript: DeleteProduct(' + pid +
-	');\" title=\"Delete\"><i class=\"icon-trash\"></i></a>' +
-	'<a href=\"#\" class=\"btnFillClass btn btn-warning\" onclick=\"javascript: FillClass(' + pid +
-	');\" title=\"Fill Class\">Fill Class</a></td>';
+	');\" title=\"Delete\"><i class=\"icon-trash\"></i>Delete</a> ' +
+	'<a href=\"#\" class=\"btnFillClass\" onclick=\"javascript: FillClass(' + pid +
+	');\" title=\"Fill Class\"><i class=\"icon-tint\"></i>Fill</a></td>';
 	
 	row.html(productBody);
 
