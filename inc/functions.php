@@ -11,7 +11,7 @@
 		$query = sprintf("SELECT coalesce(sum(li.intQuantity), 0) as 'sold' FROM %s li
 		JOIN %s p1 ON li.intProductID = p1.intID
 		JOIN %s p2 ON li.intPurchaseID = p2.intID
-		WHERE intProductID = %d AND p2.intValid < 2",
+		WHERE intProductID = %d AND p2.intValid = 1",
 		$lineitem, $product, $purchase, $ProductID);
 		
 		$result = $wpdb->get_row($query);
@@ -61,7 +61,7 @@
 	function GetProductByPurchaseID($pid)
 	{
 		global $wpdb;
-		$sql = sprintf("SELECT intProductID FROM %s as li JOIN %s as p ON li.intPurchaseID = p.intID WHERE li.intID = %s",
+		$sql = sprintf("SELECT p.* FROM %s as li JOIN %s as p ON li.intProductID = p.intID WHERE li.intPurchaseID = %s",
 			$wpdb->prefix . "mmpm_lineitem", $wpdb->prefix . "mmpm_product", $pid);
 	
 		return $wpdb->get_row($sql);
@@ -116,12 +116,10 @@
 		if ($Product->dtmStartDate > $curdate)
 		{
 			$active = false;
-			//echo "product not started";
 		}
 		elseif ($Product->dtmEndDate < $curdate)
 		{
 			$active = false;
-			//echo "product ended" . $Product->dtmEndDate . " a " . $curdate;
 		}
 		
 		return $active;
@@ -436,7 +434,7 @@
 	
 	function SendReminders($Product)
 	{
-		$sold = GetQuantitySold($Product->intID) + $Quantity;
+		$sold = GetQuantitySold($Product->intID);
 		$remaining = $Product->intQuantity - $sold;
 	
 		if ($remaining <= $Product->intNotifyQuantity)
@@ -446,7 +444,7 @@
 				$message = sprintf("Hey there!<br /><br /> Product: '%s' is sold out.  Here is the list of sales:<br /><br />
 				%s<br /><br />
 				Sincerely,<br />The Media Manifesto Team",
-				$Product->vcrDescription,
+				$Product->vcrName,
 				genPurchaseReport($Product->intID));
 			}
 			else

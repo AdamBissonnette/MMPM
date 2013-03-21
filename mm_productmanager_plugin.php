@@ -113,7 +113,7 @@ class MM_ProductManager
 				`intID` int(11) NOT NULL AUTO_INCREMENT,
 				`intPurchaserID` int NOT NULL,
 			  `vcrInvoiceNumber` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-			  `intValid` int NOT NULL DEFAULT '0',
+			  `intValid` int NOT NULL DEFAULT '3',
 			  `dtmDate` datetime NOT NULL,
 			  `vcrJSON` varchar(9999) COLLATE utf8_unicode_ci DEFAULT '',
 			  PRIMARY KEY (`intID`));",
@@ -432,6 +432,14 @@ class MM_ProductManager
 					
 					echo GetCalendarUrl($_REQUEST['calid']['id']); //Outputs string url
 				break;
+				/* case 'testvalidate':
+					$invoiceid = $_REQUEST['testbuy']['id'];
+					$value = 1;
+					$json = "";
+					$pemail = "adam@mediamanifesto.com";
+					
+					HandleIPN($invoiceid, $value, $json, $pemail);
+				break; */
 				default:
 					//Derp
 				break;
