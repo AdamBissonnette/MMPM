@@ -3,7 +3,7 @@
 Plugin Name: MM Product Manager
 Plugin URI: http://mediamanifesto.com
 Description: Product Management for selling single items easily via paypal
-Version: 0.9
+Version: 0.9a
 Author: Media Manifesto Inc
 Author URI: http://www.mediamanifesto.com
 */
@@ -233,14 +233,28 @@ class MM_ProductManager
 			$output .= "<div class=\"mm-faux-table\">";
 			$output .= "<div class=\"mm-hrow\"><div class=\"mm-inline mm-small\">Date</div><div class=\"mm-inline mm-large\">Cost</div><div class=\"mm-inline\">Quantity</div><div class=\"mm-inline\">Subtotal</div><div class=\"mm-inline mm-large\">Register via Paypal</div></div>";
 
+			$emptyCount = 0;
 			foreach ($Products as $Product)
 			{
-				$output .= $this->GenerateProductRow($Product);
+				$row = $this->GenerateProductRow($Product);
+				
+				if ($row == "")
+				{
+					$emptyCount++;
+				}
+				else
+				{
+					$output .= $row;
+				}
+			}
+			
+			if ($emptyCount == count($Products))
+			{
+				$output .= "<p>" . urldecode($this->_settings['mm_pm_empty']) . "</p>";
 			}
 			
 			$output .= "</div>";
 			$output .= '<p class="note">' . urldecode($this->_settings['mm_pm_footer']) . '</p>';
-			//$output .= '<p class="note">Before making a purchase please read the cancellation policy <a href="http://www.simonsfinefoods.com/cooking-classes/">here</a>.</p>';
 		}
 		else
 		{
