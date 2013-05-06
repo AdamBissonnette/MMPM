@@ -42,9 +42,11 @@ function SaveOptions()
 	var tax = jQuery('#mm_pm_tax').val();
 	var invoice = jQuery('#mm_pm_invoice').val();
 	var currency = jQuery('#mm_pm_currency').val();
+	var empty = jQuery('#mm_pm_empty').val();
+	var footer = jQuery('#mm_pm_footer').val();
 	
 	var info = '{"info":[{' + bJSONS("paypal", paypal) + ', ' + bJSONS("nemail", nemail) + ', ' + bJSONS("nquant", nquant) + ', ' +
-	bJSONS("tax", tax) + ', ' + bJSONS("invoice", invoice) + ', ' + bJSONS("currency", currency) + '}]}';
+	bJSONS("tax", tax) + ', ' + bJSONS("invoice", invoice) + ', ' + bJSONS("currency", currency) + ', ' + bJSONS("empty", escape(empty)) + ', ' + bJSONS("footer", escape(footer)) + '}]}';
 	
 	jQuery.post ('admin-ajax.php', { 'action':'do_ajax', 'fn':'settings', 'count':10, settings:info }, function(data){FinalizeOptions(data)}, "json");
 }

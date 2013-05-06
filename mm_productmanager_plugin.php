@@ -239,11 +239,12 @@ class MM_ProductManager
 			}
 			
 			$output .= "</div>";
-			$output .= '<p class="note">Before making a purchase please read the cancellation policy <a href="http://www.simonsfinefoods.com/cooking-classes/">here</a>.</p>';
+			$output .= '<p class="note">' . urldecode($this->_settings['mm_pm_footer']) . '</p>';
+			//$output .= '<p class="note">Before making a purchase please read the cancellation policy <a href="http://www.simonsfinefoods.com/cooking-classes/">here</a>.</p>';
 		}
 		else
 		{
-			$output .= "<p>There are no upcoming classes scheduled in the new system</p>";
+			$output .= "<p>" . urldecode($this->_settings['mm_pm_empty']) . "</p>";
 		}
 		
 		$output .= "</div>";
@@ -423,6 +424,8 @@ class MM_ProductManager
 						'mm_pm_invoice' => $data_back['info'][0]['invoice'],
 						'mm_pm_tax' => $data_back['info'][0]['tax'],
 						'mm_pm_currency' => $data_back['info'][0]['currency'],
+						'mm_pm_empty' => $data_back['info'][0]['empty'],
+						'mm_pm_footer' => $data_back['info'][0]['footer'],
 					);
 					
 					$this->_save_settings_todb($values);
@@ -493,6 +496,8 @@ class MM_ProductManager
 			'mm_pm_invoice' => '',
 			'mm_pm_tax' => '',
 			'mm_pm_currency' => '',
+			'mm_pm_empty' => '',
+			'mm_pm_footer' => '',
 		);
 
 		foreach ($standart_values as $key => $value){

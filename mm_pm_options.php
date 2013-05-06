@@ -89,6 +89,21 @@ echo genPurchaseReport();
 					        </div>
 				        </div>
 				        
+				        <div class="control-group">
+				        	<label class="control-label" for="mm_pm_empty">No Classes Message</label>
+			    		    <div class="controls">
+					        	<textarea id="mm_pm_empty" class="req" type="text" name="mm_pm_empty"><?php echo(urldecode($this->_settings['mm_pm_empty'])); ?></textarea> 
+					        	<p class="help-block">e.g. A message to display in the shortcode area when no classes are available</p>
+					        </div>
+				        </div>
+				        
+				        <div class="control-group">
+				        	<label class="control-label" for="mm_pm_footer">Footer Message</label>
+			    		    <div class="controls">
+					        	<textarea id="mm_pm_footer" class="req" type="text" name="mm_pm_footer"><?php echo(urldecode($this->_settings['mm_pm_footer'])); ?></textarea> 
+					        	<p class="help-block">e.g. A message to display below the shortcode area</p>
+					        </div>
+				        </div>
 				        
 				        <div class="form-actions clearfix">
 				            <a href="#" id="btnOptionsSave" name="mm_pm_settings_saved" class="btn btn-primary">Save</a>
