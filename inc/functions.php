@@ -62,25 +62,29 @@
 	{
 		global $wpdb;
 		$sql = sprintf("SELECT p.* FROM %s as li JOIN %s as p ON li.intProductID = p.intID WHERE li.intPurchaseID = %s",
-			$wpdb->prefix . "mmpm_lineitem", $wpdb->prefix . "mmpm_product", $pid);
+			$wpdb->prefix . "mmpm_lineitem", $wpdb->prefix . "mmpm_product", $pid, $curdate);
 	
 		return $wpdb->get_row($sql);
 	}
 	
 	function GetProductByName($pname)
 	{
+		$curdate = date('Y-m-d H:i');
+		
 		global $wpdb;
-		$sql = sprintf("SELECT * FROM %s WHERE vcrName = '%s' AND tinDeleted = 0",
-				$wpdb->prefix . "mmpm_product", $pname);
+		$sql = sprintf("SELECT * FROM %s WHERE vcrName = '%s' AND tinDeleted = 0 AND dtmEndDate > '%s' ORDER BY dtmEndDate",
+				$wpdb->prefix . "mmpm_product", $pname, $curdate);
 		
 		return $wpdb->get_row($sql);
 	}
 	
 	function GetProductsByDescription($pdesc)
 	{
+		$curdate = date('Y-m-d H:i');
+	
 		global $wpdb;
-		$sql = sprintf("SELECT * FROM %s WHERE vcrDescription = '%s' AND tinDeleted = 0",
-				$wpdb->prefix . "mmpm_product", $pdesc);
+		$sql = sprintf("SELECT * FROM %s WHERE vcrDescription = '%s' AND tinDeleted = 0 AND dtmEndDate > '%s' ORDER BY dtmEndDate",
+				$wpdb->prefix . "mmpm_product", $pdesc, $curdate);
 
 		return $wpdb->get_results($sql);
 	}
